@@ -80,6 +80,13 @@ jobs:
           name: Release ${{ steps.read_version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Send Discord notification
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_RELEASE_HOOK }}
+          title: New PLT-1 Firmware Release
+          description: ${{ steps.run-release-drafter.outputs.body }}
 
   build-firmware:
     name: Build And Release (Firmware)
