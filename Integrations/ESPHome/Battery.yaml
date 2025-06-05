@@ -35,20 +35,20 @@ number:
     name: "Sleep Duration"
     id: deep_sleep_sleep_duration
     min_value: 0
-    max_value: 800
+    max_value: 4800
     step: 1
     mode: box
     update_interval: never
     optimistic: true
     restore_value: true
-    initial_value: 12
+    initial_value: 720
     icon: "mdi:arrow-collapse-right"
     entity_category: CONFIG
-    unit_of_measurement: "h"
+    unit_of_measurement: "min"
     on_value:
       then:
         - lambda: |-
-            id(deep_sleep_1).set_sleep_duration(x * 60 * 60 * 1000);
+            id(deep_sleep_1).set_sleep_duration(x * 60 * 1000);
 
 script:
   - id: reportAllValues
