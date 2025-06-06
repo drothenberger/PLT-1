@@ -29,8 +29,8 @@ switch:
     restore_mode: ALWAYS_ON
     setup_priority: 5000
     entity_category: CONFIG
+
 number:
-  
   - platform: template
     name: "Sleep Duration"
     id: deep_sleep_sleep_duration
@@ -49,6 +49,24 @@ number:
       then:
         - lambda: |-
             id(deep_sleep_1).set_sleep_duration(x * 60 * 1000);
+  - platform: template
+    name: "Run Duration"
+    id: deep_sleep_run_duration
+    min_value: 30
+    max_value: 300
+    step: 1
+    mode: box
+    update_interval: never
+    optimistic: true
+    restore_value: true
+    initial_value: 90
+    icon: "mdi:arrow-collapse-right"
+    entity_category: CONFIG
+    unit_of_measurement: "s"
+    on_value:
+      then:
+        - lambda: |-
+            id(deep_sleep_1).set_run_duration(x * 1000);
 
 script:
   - id: reportAllValues
