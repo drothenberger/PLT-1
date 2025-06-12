@@ -22,6 +22,9 @@ api:
   on_client_connected:
     then:
       - delay: 5s
+      - lambda: |-
+          id(deep_sleep_1).set_sleep_duration(id(deep_sleep_sleep_duration).state * 60 * 60 * 1000);
+          id(deep_sleep_1).set_run_duration(id(deep_sleep_run_duration).state * 1000);
       - if:
           condition:
             or:
@@ -35,9 +38,6 @@ api:
             - delay: 10s
             - lambda: |-
                 id(reportAllValues).execute();
-            - delay: 5s
-            - deep_sleep.enter:
-                id: deep_sleep_1
 
 globals:
   - id: cycleCounter
