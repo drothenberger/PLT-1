@@ -18,6 +18,9 @@ api:
   on_client_connected:
     then:
       - delay: 5s
+      - lambda: |-
+          id(deep_sleep_1).set_sleep_duration(id(deep_sleep_sleep_duration).state * 60 * 1000);
+          id(deep_sleep_1).set_run_duration(id(deep_sleep_run_duration).state * 1000);
       - if:
           condition:
             or:
@@ -26,14 +29,11 @@ api:
           then:
             - lambda: |- 
                 ESP_LOGW("Apollo", "Preventing Deep Sleep Due To OTA Or Switch");
-                id(deep_sleep_1).prevent_deep_sleep(); 
+                id(deep_sleep_1).prevent_deep_sleep();
           else:
             - delay: 10s
             - lambda: |-
                 id(reportAllValues).execute();
-            - delay: 5s
-            - deep_sleep.enter:
-                id: deep_sleep_1
 
 globals:
   - id: cycleCounter
@@ -467,7 +467,3 @@ script:
                     blue: 0%
                 - light.turn_off:
                     id: rgb_light
-
-
-
-
