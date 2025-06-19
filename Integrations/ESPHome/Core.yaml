@@ -38,6 +38,9 @@ api:
             - delay: 20s
             - lambda: |-
                 id(reportAllValues).execute();
+            - delay: 5s
+            - deep_sleep.enter:
+                id: deep_sleep_1
 
 globals:
   - id: cycleCounter
