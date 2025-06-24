@@ -13,10 +13,25 @@ categories:
   - title: "🐛 Bug fixes"
     labels:
       - "bugfix"
+#  - title: "🚀 Enhancements"
+#    labels:
+#      - "enhancement"
+#      - "refactor"
+#      - "performance"
+#  - title: "🧰 Maintenance"
+#    labels:
+#      - "maintenance"
+#      - "ci"
+#  - title: "📚 Documentation"
+#    labels:
+#      - "documentation"
   - title: "⬆️ Dependency updates"
     collapse-after: 5
     labels:
       - "dependency-update"
+#  - title: "🚨🚨 Security Fixes 🚨🚨"
+#    labels:
+#      - "security"
 
 
 include-labels:
@@ -31,4 +46,6 @@ template: |
 
   $CHANGES
 
-  [Releases](https://github.com/ApolloAutomation/PLT-1/releases)
+  **Full Changelog**: https://github.com/ApolloAutomation/PLT-1/compare/$PREVIOUS_TAG...$RESOLVED_VERSION.1
+
+   Be sure to 🌟 this repository for updates!
