@@ -13,7 +13,6 @@ jobs:
     steps:
     - name: 'Auto-assign issue'
       uses: pozil/auto-assign-issue@v2
-      if: github.event.pull_request.user.login != 'TrevorSchirmer'
       with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           assignees: TrevorSchirmer
