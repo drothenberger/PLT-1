@@ -120,7 +120,7 @@ number:
   - platform: template
     id: wet_voltage
     name: 100% Water Voltage
-    initial_value: '1.55'
+    initial_value: 1.55
     optimistic: true
     update_interval: never
     step: 0.01
@@ -132,7 +132,7 @@ number:
   - platform: template
     id: dry_voltage
     name: Dry Voltage
-    initial_value: '2.7'
+    initial_value: 2.7
     restore_value: true
     entity_category: "CONFIG"
     optimistic: true
