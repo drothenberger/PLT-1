@@ -1,10 +1,13 @@
 substitutions:
-  version: "25.3.13.1"
+  version: "25.8.6.1"
 
 esp32:
   board: esp32-c3-devkitm-1
   framework:
     type: esp-idf
+    advanced:
+       assertion_level: SILENT
+       enable_lwip_assert: false
 
 api:
   services:
@@ -120,7 +123,7 @@ number:
     initial_value: '1.55'
     optimistic: true
     update_interval: never
-    step: 0.1
+    step: 0.01
     mode: box
     restore_value: true
     entity_category: "CONFIG"
@@ -134,7 +137,7 @@ number:
     entity_category: "CONFIG"
     optimistic: true
     update_interval: never
-    step: 0.1
+    step: 0.01
     mode: box
     min_value: 0.0
     max_value: 5.0
@@ -150,6 +153,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
+      ignore_strapping_warning: true
     id: reset_button
     on_press:
       then:
@@ -270,8 +274,8 @@ sensor:
       float low = id(dry_voltage).state;
       float x = id(soil_adc).state;
 
-      // Perform linear calibration manually
-      float calibrated_value = ((100 - 0)/(high - low)) * x + (100 - (((100 - 0)/(high - low)) * high));
+      // Perform linear calibration
+      float calibrated_value = ((x - low)/(high - low)) * 100;
       
       // Bound the result between 0 and 100
       if (calibrated_value < 0) return 0;
@@ -345,6 +349,7 @@ switch:
             then:
               - lambda: |- 
                   id(deep_sleep_1).allow_deep_sleep();
+
 
 script:
   - id: statusCheck
@@ -467,6 +472,7 @@ script:
                     blue: 0%
                 - light.turn_off:
                     id: rgb_light
+
 
 
 
