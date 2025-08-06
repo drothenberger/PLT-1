@@ -27,7 +27,7 @@ jobs:
       yaml-files: |
         Integrations/ESPHome/PLT-1.yaml
         Integrations/ESPHome/PLT-1B.yaml
-      firmware-names: "1:firmware,B:firmware-b"
+      firmware-names: "1:firmware,1B:firmware-b"
       core-yaml-path: Integrations/ESPHome/Core.yaml
       esphome-version: stable
       # Bypass check if manually triggered with bypass option
