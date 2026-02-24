@@ -351,6 +351,12 @@ switch:
                   id(deep_sleep_1).allow_deep_sleep();
 
 
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "IP Address"
+      id: wifi_ip
+
 script:
   - id: statusCheck
     then:
