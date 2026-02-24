@@ -10,8 +10,8 @@ esp32:
        enable_lwip_assert: false
 
 api:
-  services:
-    - service: play_buzzer
+  actions:
+    - action: play_buzzer
       variables:
         song_str: string
       then:
