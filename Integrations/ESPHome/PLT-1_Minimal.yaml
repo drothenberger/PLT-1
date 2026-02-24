@@ -3,9 +3,6 @@ esphome:
   friendly_name: Apollo PLT-1 Minimal
   comment: Apollo PLT-1 Minimal
   name_add_mac_suffix: true
-  platformio_options:
-    board_build.flash_mode: dio
-
   project:
     name: "ApolloAutomation.PLT-1_Minimal"
     version: "${version}"
@@ -49,6 +46,7 @@ ota:
 
 web_server:
   port: 80
+  version: 3
 
 wifi:
   ap:
