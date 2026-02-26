@@ -62,3 +62,4 @@ script:
       - component.update: sys_uptime
       - component.update: soil_adc
       - component.update: max_17048
+      - component.update: apollo_firmware_version
