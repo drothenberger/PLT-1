@@ -2,7 +2,8 @@ substitutions:
   version: "25.8.6.1"
 
 esp32:
-  board: esp32-c3-devkitm-1
+  variant: esp32c3
+  flash_size: 4MB
   framework:
     type: esp-idf
     advanced:
@@ -10,8 +11,8 @@ esp32:
        enable_lwip_assert: false
 
 api:
-  services:
-    - service: play_buzzer
+  actions:
+    - action: play_buzzer
       variables:
         song_str: string
       then:
@@ -350,6 +351,22 @@ switch:
               - lambda: |- 
                   id(deep_sleep_1).allow_deep_sleep();
 
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "IP Address"
+      id: wifi_ip
+  - platform: version
+    name: "ESPHome Version"
+    hide_timestamp: true
+    entity_category: "diagnostic"
+  - platform: template
+    name: "Apollo Firmware Version"
+    id: apollo_firmware_version
+    lambda: |-
+      return {"${version}"};
+    entity_category: "diagnostic"
 
 script:
   - id: statusCheck

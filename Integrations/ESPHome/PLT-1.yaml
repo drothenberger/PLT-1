@@ -3,9 +3,6 @@ esphome:
   friendly_name: Apollo PLT-1
   comment: Apollo PLT-1
   name_add_mac_suffix: true
-  platformio_options:
-    board_build.flash_mode: dio
-
   project:
     name: "ApolloAutomation.PLT-1"
     version: "${version}"
@@ -48,6 +45,7 @@ esp32_improv:
 
 web_server:
   port: 80
+  version: 3
 
 ota:
   - platform: esphome
@@ -67,11 +65,6 @@ update:
     source: https://apolloautomation.github.io/PLT-1/firmware/manifest.json
 
 wifi:
-  on_connect:
-    - delay: 5s
-    - ble.disable:
-  on_disconnect:
-    - ble.enable:
   ap:
     ssid: "Apollo PLT1 Hotspot"
 
