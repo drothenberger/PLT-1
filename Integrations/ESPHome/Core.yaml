@@ -1,8 +1,9 @@
 substitutions:
-  version: "25.8.6.1"
+  version: "26.3.2.1"
 
 esp32:
-  board: esp32-c3-devkitm-1
+  variant: esp32c3
+  flash_size: 4MB
   framework:
     type: esp-idf
     advanced:
@@ -10,8 +11,8 @@ esp32:
        enable_lwip_assert: false
 
 api:
-  services:
-    - service: play_buzzer
+  actions:
+    - action: play_buzzer
       variables:
         song_str: string
       then:
@@ -67,6 +68,10 @@ globals:
     restore_value: no
     type: bool
     initial_value: "false"
+  - id: ltr390_last_update
+    restore_value: no
+    type: uint32_t
+    initial_value: '0'
 
 
 captive_portal:
@@ -141,6 +146,19 @@ number:
     mode: box
     min_value: 0.0
     max_value: 5.0
+  - platform: template
+    name: LTR390 Update Interval
+    id: ltr390_update_interval
+    restore_value: true
+    initial_value: 60
+    min_value: 1
+    max_value: 300
+    entity_category: "CONFIG"
+    unit_of_measurement: "s"
+    optimistic: true
+    update_interval: never
+    step: 1
+    mode: box
 
 binary_sensor:
   - platform: status
@@ -285,13 +303,13 @@ sensor:
 
   - platform: ltr390
     id: ltr_390
+    update_interval: never
     light:
       name: "LTR390 Light"
       id: ltr390light
     uv_index:
       name: "LTR390 UV Index"
       id: ltr390uvindex
-    update_interval: 60s
 
 light:
   - platform: esp32_rmt_led_strip
@@ -350,6 +368,22 @@ switch:
               - lambda: |- 
                   id(deep_sleep_1).allow_deep_sleep();
 
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "IP Address"
+      id: wifi_ip
+      entity_category: "diagnostic"
+  - platform: version
+    name: "ESPHome Version"
+    hide_timestamp: true
+    entity_category: "diagnostic"
+  - platform: template
+    name: "Apollo Firmware Version"
+    id: apollo_firmware_version
+    update_interval: never
+    entity_category: "diagnostic"
 
 script:
   - id: statusCheck
@@ -473,7 +507,23 @@ script:
                 - light.turn_off:
                     id: rgb_light
 
+interval:
+  - interval: 1s
+    then:
+      - lambda: |-
+          uint32_t current_time = millis() / 1000;
+          uint32_t last_update = id(ltr390_last_update);
+          uint32_t interval = (uint32_t)id(ltr390_update_interval).state;
 
+          // Immediate update on boot (when last_update is still 0)
+          if (last_update == 0 && current_time > 0) {
+            id(ltr_390).update();
+            id(ltr390_last_update) = current_time;
+            return;
+          }
 
-
-
+          // Check if enough time has passed
+          if (current_time - last_update >= interval) {
+            id(ltr_390).update();
+            id(ltr390_last_update) = current_time;
+          }
